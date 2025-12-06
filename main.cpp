@@ -191,7 +191,6 @@ int main()
     ImGuiStyle& style = ImGui::GetStyle();
     style.WindowRounding = 15.0f;
 
-    bool showCube = true;
     Cube myCube{
         glm::vec3(0.0f,0.0f,0.0f), // Position 
         glm::vec4(1.0f,1.0f,1.0f,1.0f), // Color but doesn't work now
@@ -259,17 +258,10 @@ int main()
         model = glm::scale(model,glm::vec3(0.2f));
         CubeShader.use();
         CubeShader.setVec3("lightPos",myLight.Position);
-        if(showCube)
-        {
         CubeShader.use();
         glBindVertexArray(cubeVAO);
         glDrawArrays(GL_TRIANGLES,0,36);
         glBindVertexArray(0);
-
-        }
-
-
-        
 
         lightShader.use();
         lightShader.setmat4("model",model);
@@ -294,16 +286,7 @@ int main()
         if(ispaused)
         {   
             glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_CAPTURED);
-            ImGui::Begin("Camera Setttings");
-    
-            ImGui::SeparatorText("Positions");
-
-            ImGui::Checkbox("SHOW CUBE", &showCube);
-            ImGui::End();
-
-
-            if(showCube)
-            {ImGui::Begin("Cube Proporties");
+            ImGui::Begin("Cube Proporties");
             
             ImGui::SliderFloat("Cube Size", &myCube.size, 1.0f, 10.0f);
             ImGui::DragFloat3("Cube Position", &myCube.Position.x);
@@ -312,7 +295,7 @@ int main()
             ImGui::DragFloat3("Specular",&myCube.specular.x);
             ImGui::DragFloat("Shininess",&myCube.shininess);
             ImGui::End();
-            }
+            
 
 
             ImGui::Begin("Light Properties");
